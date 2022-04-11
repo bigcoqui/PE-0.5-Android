@@ -29,13 +29,11 @@ class Note extends FlxSprite
 	public var noteType(default, set):String = null;
 
 	public var eventName:String = '';
-	public var eventLength:Int = 0;
 	public var eventVal1:String = '';
 	public var eventVal2:String = '';
 
 	public var colorSwap:ColorSwap;
 	public var inEditor:Bool = false;
-	public var gfNote:Bool = false;
 	private var earlyHitMult:Float = 0.5;
 
 	public static var swagWidth:Float = 160 * 0.7;
@@ -96,13 +94,21 @@ class Note extends FlxSprite
 					if(isSustainNote) {
 						missHealth = 0.1;
 					} else {
-						missHealth = 0.3;
+						missHealth = 0.25;
 					}
 					hitCausesMiss = true;
+				case 'Shoot Note':
+					reloadNote('SHOOT');
+					noteSplashTexture = 'SHOOTnoteSplashes';
+				case 'Dodge Note':
+					reloadNote('SHOOT');
+					noteSplashTexture = 'SHOOTnoteSplashes';
+					colorSwap.hue = 0;
+					colorSwap.saturation = 0;
+					colorSwap.brightness = 0;
+					missHealth = 0.75;
 				case 'No Animation':
 					noAnimation = true;
-				case 'GF Sing':
-					gfNote = true;
 			}
 			noteType = value;
 		}
@@ -158,8 +164,8 @@ class Note extends FlxSprite
 
 		if (isSustainNote && prevNote != null)
 		{
-			alpha = 0.6;
-			multAlpha = 0.6;
+			alpha = 0.8;
+			multAlpha = 0.8;
 			if(ClientPrefs.downScroll) flipY = true;
 
 			offsetX += width / 2;
